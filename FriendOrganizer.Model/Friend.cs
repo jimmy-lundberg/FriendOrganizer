@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace FriendOrganizer.Model
+﻿namespace FriendOrganizer.Model
 {
     public class Friend
     {

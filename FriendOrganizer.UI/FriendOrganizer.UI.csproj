@@ -108,11 +108,11 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\FriendOrganizer.DataAccess\FriendOrganizer.DataAccess.csproj">
-      <Project>{190787d1-ad0f-4f2b-b9c7-69c11d14d6ed}</Project>
+      <Project>{37f85540-e258-4c66-94df-d3103cec6dd7}</Project>
       <Name>FriendOrganizer.DataAccess</Name>
     </ProjectReference>
     <ProjectReference Include="..\FriendOrganizer.Model\FriendOrganizer.Model.csproj">
-      <Project>{555ca6c5-0df7-4d82-af61-687e5fd81aca}</Project>
+      <Project>{82e87cfc-45f8-4e81-b007-d919e62e8821}</Project>
       <Name>FriendOrganizer.Model</Name>
     </ProjectReference>
   </ItemGroup>
