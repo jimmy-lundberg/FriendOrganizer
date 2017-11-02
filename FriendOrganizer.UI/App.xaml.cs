@@ -2,6 +2,7 @@
 using FriendOrganizer.UI.Startup;
 using System;
 using System.Windows;
+using System.Windows.Threading;
 
 namespace FriendOrganizer.UI
 {
@@ -16,7 +17,7 @@ namespace FriendOrganizer.UI
             mainWindow.Show();
         }
 
-        private void Application_DispatcherUnhandledException(object sender, System.Windows.Threading.DispatcherUnhandledExceptionEventArgs e)
+        private void Application_DispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)
         {
             MessageBox.Show("Unexpected message occured. Please inform the admin." + Environment.NewLine + e.Exception.Message, "Unexpected error");
 
