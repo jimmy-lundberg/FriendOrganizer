@@ -1,4 +1,5 @@
-﻿    using FriendOrganizer.UI.Data.Repositories;
+﻿using Autofac.Features.Indexed;
+using FriendOrganizer.UI.Data.Repositories;
 using FriendOrganizer.UI.Event;
 using FriendOrganizer.UI.View.Services;
 using Prism.Commands;
@@ -11,18 +12,18 @@ namespace FriendOrganizer.UI.ViewModel
 {
     public class MainViewModel : ViewModelBase
     {
-        private Func<IFriendDetailViewModel> _friendDetailViewModelCreator;
+        private IIndex<string, IDetailViewModel> _detailViewModelCreator;
         private IMessageDialogService _messageDialogService;
         private IDetailViewModel _detailViewModel;
         private IEventAggregator _eventAggregator;
 
-        public MainViewModel(IFriendRepository friendDataService, INavigationViewModel navigationViewModel, 
-            Func<IFriendDetailViewModel> friendDetailViewModelCreator, IEventAggregator eventAggregator, 
+        public MainViewModel(INavigationViewModel navigationViewModel, 
+            IIndex<string, IDetailViewModel> detailViewModelCreator,
+            IEventAggregator eventAggregator, 
             IMessageDialogService messageDialogService)
         {
-            _friendDetailViewModelCreator = friendDetailViewModelCreator;
+            _detailViewModelCreator = detailViewModelCreator;
             _messageDialogService = messageDialogService;
-
             _eventAggregator = eventAggregator;
             
             _eventAggregator.GetEvent<OpenDetailViewEvent>()
@@ -75,14 +76,8 @@ namespace FriendOrganizer.UI.ViewModel
                     return;
                 }
             }
-
-            switch (args.ViewModelName)
-            {
-                case nameof(FriendDetailViewModel):
-                    DetailViewModel = _friendDetailViewModelCreator();
-                    break;
-            }
-
+            
+            DetailViewModel = _detailViewModelCreator[args.ViewModelName];
             await DetailViewModel.LoadAsync(args.Id);
         }
 
