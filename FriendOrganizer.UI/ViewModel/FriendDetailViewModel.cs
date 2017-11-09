@@ -12,12 +12,12 @@ using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using System;
 
 namespace FriendOrganizer.UI.ViewModel
 {
     public class FriendDetailViewModel : DetailViewModelBase, IFriendDetailViewModel
     {
-        private IMessageDialogService _messageDialogService;
         private IFriendRepository _friendRepository;
         private IProgrammingLanguageLookupDataService _programmingLanguageLookupDataService;
         private FriendWrapper _friend;
@@ -25,9 +25,8 @@ namespace FriendOrganizer.UI.ViewModel
 
         public FriendDetailViewModel(IFriendRepository friendRepository, IEventAggregator eventAggregator, 
             IMessageDialogService messageDialogService, IProgrammingLanguageLookupDataService programmingLanguageLookupDataService)
-            : base(eventAggregator)
+            : base(eventAggregator, messageDialogService)
         {
-            _messageDialogService = messageDialogService;
             _friendRepository = friendRepository;
             _programmingLanguageLookupDataService = programmingLanguageLookupDataService;
 
@@ -38,11 +37,13 @@ namespace FriendOrganizer.UI.ViewModel
             PhoneNumbers = new ObservableCollection<FriendPhoneNumberWrapper>();
         }
 
-        public override async Task LoadAsync(int? friendId)
+        public override async Task LoadAsync(int friendId)
         {
-            var friend = friendId.HasValue
-                ? await _friendRepository.GetByIdAsync(friendId.Value)
+            var friend = friendId > 0
+                ? await _friendRepository.GetByIdAsync(friendId)
                 : CreateNewFriend();
+
+            Id = friendId;
 
             InitializeFriend(friend);
 
@@ -66,6 +67,12 @@ namespace FriendOrganizer.UI.ViewModel
                 {
                     ((DelegateCommand)SaveCommand).RaiseCanExecuteChanged();
                 }
+
+                if (e.PropertyName == nameof(Friend.FirstName) || 
+                    e.PropertyName == nameof(Friend.LastName))
+                {
+                    SetTitle();
+                }
             };
 
             ((DelegateCommand)SaveCommand).RaiseCanExecuteChanged();
@@ -75,6 +82,13 @@ namespace FriendOrganizer.UI.ViewModel
                 // Little trick to trigger the validation.
                 Friend.FirstName = "";
             }
+
+            SetTitle();
+        }
+
+        private void SetTitle()
+        {
+            Title = $"{Friend.FirstName} {Friend.LastName}";
         }
 
         private void InitializeFriendPhoneNumbers(ICollection<FriendPhoneNumber> phoneNumbers)
@@ -160,6 +174,7 @@ namespace FriendOrganizer.UI.ViewModel
         {
             await _friendRepository.SaveAsync();
             HasChanges = _friendRepository.HasChanges();
+            Id = Friend.Id;
             RaiseDetailSavedEvent(Friend.Id, $"{Friend.FirstName} {Friend.LastName}");
         }
 
