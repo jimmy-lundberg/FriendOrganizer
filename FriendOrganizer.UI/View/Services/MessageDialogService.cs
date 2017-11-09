@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Windows;
 
 namespace FriendOrganizer.UI.View.Services
 {
-    public class MessageDialogService : IMessageDialogService 
+    public class MessageDialogService : IMessageDialogService
     {
         public MessageDialogResult ShowOkCancelDialog(string text, string title)
         {
@@ -17,6 +12,11 @@ namespace FriendOrganizer.UI.View.Services
                 ? MessageDialogResult.OK
                 : MessageDialogResult.Cancel;
         }
+
+        public void ShowInfoDialog(string text)
+        {
+            MessageBox.Show(text, "Info");
+        }
     }
 
     public enum MessageDialogResult
@@ -24,4 +24,5 @@ namespace FriendOrganizer.UI.View.Services
         OK,
         Cancel
     }
+
 }
