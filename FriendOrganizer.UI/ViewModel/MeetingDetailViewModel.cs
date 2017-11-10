@@ -182,10 +182,13 @@ namespace FriendOrganizer.UI.ViewModel
 
         protected async override void OnSaveExecute()
         {
-            await _meetingRepository.SaveAsync();
-            HasChanges = _meetingRepository.HasChanges();
-            Id = Meeting.Id;
-            RaiseDetailSavedEvent(Meeting.Id, Meeting.Title);
+            await SaveWithOptimisticConcurrencyAsync(_meetingRepository.SaveAsync, 
+                () => 
+                {
+                    HasChanges = _meetingRepository.HasChanges();
+                    Id = Meeting.Id;
+                    RaiseDetailSavedEvent(Meeting.Id, Meeting.Title);
+                });
         }
 
         private Meeting CreateNewMeeting()

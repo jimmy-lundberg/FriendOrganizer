@@ -22,6 +22,9 @@ namespace FriendOrganizer.Model
 
         public DateTime DateTo { get; set; }
 
+        [Timestamp]
+        public Byte[] RowVersion { get; set; }
+
         public ICollection<Friend> Friends { get; set; }
     }
 }

@@ -13,6 +13,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using System;
+using System.Data.Entity.Infrastructure;
 
 namespace FriendOrganizer.UI.ViewModel
 {
@@ -66,19 +67,16 @@ namespace FriendOrganizer.UI.ViewModel
         private void InitializeFriend(Friend friend)
         {
             Friend = new FriendWrapper(friend);
-
             Friend.PropertyChanged += (s, e) =>
             {
                 if (!HasChanges)
                 {
                     HasChanges = _friendRepository.HasChanges();
                 }
-
                 if (e.PropertyName == nameof(Friend.HasErrors))
                 {
                     ((DelegateCommand)SaveCommand).RaiseCanExecuteChanged();
                 }
-
                 if (e.PropertyName == nameof(Friend.FirstName) || 
                     e.PropertyName == nameof(Friend.LastName))
                 {
@@ -183,10 +181,13 @@ namespace FriendOrganizer.UI.ViewModel
         
         protected override async void OnSaveExecute()
         {
-            await _friendRepository.SaveAsync();
-            HasChanges = _friendRepository.HasChanges();
-            Id = Friend.Id;
-            RaiseDetailSavedEvent(Friend.Id, $"{Friend.FirstName} {Friend.LastName}");
+            await SaveWithOptimisticConcurrencyAsync(_friendRepository.SaveAsync, 
+                () => 
+                {
+                    HasChanges = _friendRepository.HasChanges();
+                    Id = Friend.Id;
+                    RaiseDetailSavedEvent(Friend.Id, $"{Friend.FirstName} {Friend.LastName}");
+                });
         }
 
         protected override bool OnSaveCanExecute()

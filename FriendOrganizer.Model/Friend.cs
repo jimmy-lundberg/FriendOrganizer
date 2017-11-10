@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
 
@@ -28,6 +29,9 @@ namespace FriendOrganizer.Model
         public int? FavoriteLanguageId { get; set; }
 
         public ProgrammingLanguage FavoriteLanguage { get; set; }
+
+        [Timestamp]
+        public Byte[] RowVersion { get; set; }
 
         public ICollection<FriendPhoneNumber> PhoneNumbers { get; set; }
 

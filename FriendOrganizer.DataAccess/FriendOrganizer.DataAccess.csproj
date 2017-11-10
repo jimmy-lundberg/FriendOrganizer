@@ -65,6 +65,14 @@
     <Compile Include="Migrations\201711071732423_AddedMeeting.Designer.cs">
       <DependentUpon>201711071732423_AddedMeeting.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201711101625454_AddedRowVersionToFriend.cs" />
+    <Compile Include="Migrations\201711101625454_AddedRowVersionToFriend.Designer.cs">
+      <DependentUpon>201711101625454_AddedRowVersionToFriend.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201711101938469_AddedRowVersionToMeeting.cs" />
+    <Compile Include="Migrations\201711101938469_AddedRowVersionToMeeting.Designer.cs">
+      <DependentUpon>201711101938469_AddedRowVersionToMeeting.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -90,6 +98,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201711071732423_AddedMeeting.resx">
       <DependentUpon>201711071732423_AddedMeeting.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201711101625454_AddedRowVersionToFriend.resx">
+      <DependentUpon>201711101625454_AddedRowVersionToFriend.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201711101938469_AddedRowVersionToMeeting.resx">
+      <DependentUpon>201711101938469_AddedRowVersionToMeeting.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
