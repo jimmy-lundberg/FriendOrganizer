@@ -63,6 +63,15 @@ namespace FriendOrganizer.UI.ViewModel
             }
         }
 
+        protected virtual void RaiseCollectionSavedEvent()
+        {
+            _eventAggregator.GetEvent<AfterCollectionSavedEvent>()
+                .Publish(new AfterCollectionSavedEventArgs
+                {
+                    ViewModelName = this.GetType().Name
+                });
+        }
+
         protected virtual void OnCloseDetailViewExecute()
         {
             if (HasChanges)
@@ -88,7 +97,6 @@ namespace FriendOrganizer.UI.ViewModel
         protected abstract void OnSaveExecute();
 
         protected abstract void OnDeleteExecute();
-
 
         protected virtual void RaiseDetailDeletedEvent(int modelId)
         {
