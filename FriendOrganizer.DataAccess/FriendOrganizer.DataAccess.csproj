@@ -75,6 +75,10 @@
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="WeatherApi\ConsolidatedWeather.cs" />
+    <Compile Include="WeatherApi\Parent.cs" />
+    <Compile Include="WeatherApi\Source.cs" />
+    <Compile Include="WeatherApi\Weather.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\FriendOrganizer.Model\FriendOrganizer.Model.csproj">
