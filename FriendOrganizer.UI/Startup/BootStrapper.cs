@@ -21,6 +21,7 @@ namespace FriendOrganizer.UI.Startup
             builder.RegisterType<MainWindow>().AsSelf();
 
             builder.RegisterType<MessageDialogService>().As<IMessageDialogService>();
+            builder.RegisterType<WeatherService>().As<IWeatherService>();
 
             builder.RegisterType<MainViewModel>().AsSelf();
             builder.RegisterType<NavigationViewModel>().As<INavigationViewModel>();

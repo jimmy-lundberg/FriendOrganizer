@@ -11,22 +11,26 @@ using System.Windows.Input;
 using System.Collections.Generic;
 using System.Linq;
 using FriendOrganizer.UI.Event;
+using FriendOrganizer.DataAccess;
 
 namespace FriendOrganizer.UI.ViewModel
 {
     public class MeetingDetailViewModel : DetailViewModelBase, IMeetingDetailViewModel
     {
         private MeetingWrapper _meeting;
+        private IWeatherService _weatherService;
         private IMeetingRepository _meetingRepository;
         private Friend _selectedAvailableFriend;
         private Friend _selectedAddedFriend;
         private List<Friend> _allFriends;
 
-        public MeetingDetailViewModel(IEventAggregator eventAggregator, 
-            IMessageDialogService messageDialogService, 
-            IMeetingRepository meetingRepository) 
+        public MeetingDetailViewModel(IEventAggregator eventAggregator,
+            IMessageDialogService messageDialogService,
+            IWeatherService weatherService,
+            IMeetingRepository meetingRepository)
             : base(eventAggregator, messageDialogService)
         {
+            _weatherService = weatherService;
             _meetingRepository = meetingRepository;
             _eventAggregator.GetEvent<AfterDetailSavedEvent>().Subscribe(AfterDetailSaved);
             _eventAggregator.GetEvent<AfterDetailDeletedEvent>().Subscribe(AfterDetailDeleted);
@@ -35,8 +39,23 @@ namespace FriendOrganizer.UI.ViewModel
             AvailableFriends = new ObservableCollection<Friend>();
             AddFriendCommand = new DelegateCommand(OnAddFriendExecute, OnAddFriendCanExecute);
             RemoveFriendCommand = new DelegateCommand(OnRemoveFriendExecute, OnRemoveFriendCanExecute);
+            RefreshWeatherCommand = new DelegateCommand(OnRefreshWeatherExecute);
         }
-        
+
+        private async void OnRefreshWeatherExecute()
+        {
+            var forecast = _weatherService.GetWeather();
+
+            if (forecast != null)
+            {
+                WeatherForecast = forecast;
+            }
+            else
+            {
+                await _messageDialogService.ShowInfoDialogAsync("API access failed. \nWeather forecast has not been updated."); 
+            }
+        }
+
         private async void AfterDetailSaved(AfterDetailSavedEventArgs args)
         {
             if (args.ViewModelName == nameof(FriendDetailViewModel))
@@ -60,6 +79,23 @@ namespace FriendOrganizer.UI.ViewModel
 
         public ICommand RemoveFriendCommand { get; }
 
+        public ICommand RefreshWeatherCommand { get; }
+
+        private Dictionary<int, WeatherInfo> _weatherForecast;
+
+        public Dictionary<int, WeatherInfo> WeatherForecast
+        {
+            get { return _weatherForecast; }
+            set
+            {
+                if (value != null)
+                {
+                    _weatherForecast = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
         public ObservableCollection<Friend> AddedFriends { get; }
 
         public ObservableCollection<Friend> AvailableFriends { get; }
@@ -74,7 +110,7 @@ namespace FriendOrganizer.UI.ViewModel
                 ((DelegateCommand)AddFriendCommand).RaiseCanExecuteChanged();
             }
         }
-        
+
         public Friend SelectedAddedFriend
         {
             get { return _selectedAddedFriend; }
@@ -85,17 +121,17 @@ namespace FriendOrganizer.UI.ViewModel
                 ((DelegateCommand)RemoveFriendCommand).RaiseCanExecuteChanged();
             }
         }
-        
+
         public MeetingWrapper Meeting
         {
             get { return _meeting; }
             private set
             {
                 _meeting = value;
-                OnPropertyChanged();    
+                OnPropertyChanged();
             }
         }
-        
+
         public async override Task LoadAsync(int meetingId)
         {
             var meeting = meetingId > 0
@@ -109,6 +145,7 @@ namespace FriendOrganizer.UI.ViewModel
             _allFriends = await _meetingRepository.GetAllFriendsAsync();
 
             SetupPicklist();
+            OnRefreshWeatherExecute();
         }
 
         private void SetupPicklist()
@@ -182,8 +219,8 @@ namespace FriendOrganizer.UI.ViewModel
 
         protected async override void OnSaveExecute()
         {
-            await SaveWithOptimisticConcurrencyAsync(_meetingRepository.SaveAsync, 
-                () => 
+            await SaveWithOptimisticConcurrencyAsync(_meetingRepository.SaveAsync,
+                () =>
                 {
                     HasChanges = _meetingRepository.HasChanges();
                     Id = Meeting.Id;

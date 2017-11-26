@@ -37,9 +37,13 @@
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
+    <Reference Include="RestSharp, Version=106.1.0.0, Culture=neutral, PublicKeyToken=598062e77f915f75, processorArchitecture=MSIL">
+      <HintPath>..\packages\RestSharp.106.1.0\lib\net452\RestSharp.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -49,6 +53,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="FriendOrganizerDbContext.cs" />
+    <Compile Include="IWeatherService.cs" />
     <Compile Include="Migrations\201710261540182_InitialDatabase.cs" />
     <Compile Include="Migrations\201710261540182_InitialDatabase.Designer.cs">
       <DependentUpon>201710261540182_InitialDatabase.cs</DependentUpon>
@@ -75,10 +80,11 @@
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="WeatherApi\ConsolidatedWeather.cs" />
-    <Compile Include="WeatherApi\Parent.cs" />
-    <Compile Include="WeatherApi\Source.cs" />
-    <Compile Include="WeatherApi\Weather.cs" />
+    <Compile Include="WeatherData\ConsolidatedWeather.cs" />
+    <Compile Include="WeatherData\Parent.cs" />
+    <Compile Include="WeatherData\Source.cs" />
+    <Compile Include="WeatherData\Weather.cs" />
+    <Compile Include="WeatherService.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\FriendOrganizer.Model\FriendOrganizer.Model.csproj">

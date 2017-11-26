@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FriendOrganizer.DataAccess.WeatherApi
+namespace FriendOrganizer.DataAccess.WeatherData
 {
     public class Weather
     {

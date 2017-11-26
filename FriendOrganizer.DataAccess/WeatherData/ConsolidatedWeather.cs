@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace FriendOrganizer.DataAccess.WeatherApi
+namespace FriendOrganizer.DataAccess.WeatherData
 {
     public class ConsolidatedWeather
     {

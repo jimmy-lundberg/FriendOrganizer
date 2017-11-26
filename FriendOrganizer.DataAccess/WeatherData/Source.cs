@@ -1,4 +1,4 @@
-﻿namespace FriendOrganizer.DataAccess.WeatherApi
+﻿namespace FriendOrganizer.DataAccess.WeatherData
 {
     public class Source
     {
