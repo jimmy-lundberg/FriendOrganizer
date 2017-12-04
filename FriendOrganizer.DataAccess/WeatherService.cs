@@ -52,8 +52,8 @@ namespace FriendOrganizer.DataAccess
                     new WeatherInfo
                     {
                         Date = weather.applicable_date,
-                        Temperature = (Math.Round(weather.the_temp)).ToString() + "°C",
-                        WeatherStateImageUrl = $"{baseUrl}/static/img/weather/{weather.weather_state_abbr}.svg"
+                        Temperature = (weather.the_temp == null) ? "Not found" : (Math.Round((double)weather.the_temp)).ToString() + "°C",
+                        WeatherStateImageUrl = $"{baseUrl}/static/img/weather/png/64/{weather.weather_state_abbr}.png"
                     });
 
                 key++;

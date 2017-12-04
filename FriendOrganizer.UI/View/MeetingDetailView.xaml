@@ -63,7 +63,7 @@
 
             <TextBlock Text="{Binding WeatherForecast[0].Date}" />
             <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center">
-                <Image Width="25" Height="25">
+                <Image Width="25" Height="25" Margin="0 0 5 0">
                     <Image.Source>
                         <PriorityBinding>
                             <Binding Path="WeatherForecast[0].WeatherStateImageUrl" Converter="{StaticResource imageConverter}" />
@@ -75,34 +75,34 @@
 
             <TextBlock Grid.Column="1" Text="{Binding WeatherForecast[1].Date}" />
             <StackPanel Grid.Row="1" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Center">
-                <Image />
+                <Image Source="{Binding WeatherForecast[1].WeatherStateImageUrl}" Width="25" Height="25" Margin="0 0 5 0"/>
                 <TextBlock Text="{Binding WeatherForecast[1].Temperature}" />
             </StackPanel>
 
             <TextBlock Grid.Column="2" Text="{Binding WeatherForecast[2].Date}" />
             <StackPanel Grid.Row="1" Grid.Column="2" Orientation="Horizontal" HorizontalAlignment="Center">
-                <Image />
+                <Image Source="{Binding WeatherForecast[2].WeatherStateImageUrl}" Width="25" Height="25" Margin="0 0 5 0"/>
                 <TextBlock Text="{Binding WeatherForecast[2].Temperature}" />
             </StackPanel>
 
             <TextBlock Grid.Column="3" Text="{Binding WeatherForecast[3].Date}" />
             <StackPanel Grid.Row="1" Grid.Column="3" Orientation="Horizontal" HorizontalAlignment="Center">
-                <Image />
+                <Image Source="{Binding WeatherForecast[3].WeatherStateImageUrl}" Width="25" Height="25" Margin="0 0 5 0"/>
                 <TextBlock Text="{Binding WeatherForecast[3].Temperature}" />
             </StackPanel>
 
             <TextBlock Grid.Column="4" Text="{Binding WeatherForecast[4].Date}" />
             <StackPanel Grid.Row="1" Grid.Column="4" Orientation="Horizontal" HorizontalAlignment="Center">
-                <Image />
+                <Image Source="{Binding WeatherForecast[4].WeatherStateImageUrl}" Width="25" Height="25" Margin="0 0 5 0"/>
                 <TextBlock Text="{Binding WeatherForecast[4].Temperature}" />
             </StackPanel>
 
             <TextBlock Grid.Column="5" Text="{Binding WeatherForecast[5].Date}" />
             <StackPanel Grid.Row="1" Grid.Column="5" Orientation="Horizontal" HorizontalAlignment="Center">
-                <Image />
+                <Image Source="{Binding WeatherForecast[5].WeatherStateImageUrl}" Width="25" Height="25" Margin="0 0 5 0"/>
                 <TextBlock Text="{Binding WeatherForecast[5].Temperature}" />
             </StackPanel>
-        </Grid>
+        </Grid> 
         
         <Grid Grid.Row="5" Margin="0 10 0 0">
             <Grid.Resources>
